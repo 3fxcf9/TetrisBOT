@@ -1,4 +1,8 @@
-const all_tetraminos = require("./tetraminos.json");
+import { allTetraminoSRS } from "./data/srs";
+import type { TetraminoSRS } from "./data/srs";
+
+import { tetraminoColors } from "./data/colors";
+import type { TetraminoColor } from "./data/colors";
 
 /**
  * Represents a tetramino (position, rotation).
@@ -6,30 +10,32 @@ const all_tetraminos = require("./tetraminos.json");
 export class Tetramino {
 	x: number;
 	y: number;
-	type: string;
-	rotations: number[][][];
+	type: number;
+	srs: TetraminoSRS;
 	current_rotation: number;
-	color: string;
-	projected_color: string;
+	colors: TetraminoColor;
+	pixel_on_rendering: string;
+	pixel_off_rendering: string;
 
-	constructor({ x = 0, y = 0, rotation = 0, type = "L" } = {}) {
+	constructor({ x = 0, y = 0, rotation = 0, type = 5 } = {}) {
 		this.x = x;
 		this.y = y;
 		this.type = type;
-		this.current_rotation = rotation;
 
-		let tetramino_data = all_tetraminos[this.type];
-		this.rotations = tetramino_data.rotations;
-		this.color = tetramino_data.color;
-		this.projected_color = tetramino_data.projected_color;
+		this.current_rotation = rotation;
+		this.srs = allTetraminoSRS[type];
+
+		this.colors = tetraminoColors[this.type];
+		this.pixel_on_rendering = `${this.colors.piece}  \u001b[0m`;
+		this.pixel_off_rendering = `  `;
 	}
 
 	get matrix() {
-		return this.rotations[this.current_rotation] as number[][];
+		return this.srs.rotations[this.current_rotation] as number[][];
 	}
 
-	toString() {
-		return `${this.color}Tetramino:${this.type}\u001b[0m`;
+	toString(): string {
+		return this.matrix.map((row) => row.map((s) => (s ? this.pixel_on_rendering : this.pixel_off_rendering)).join("")).join("\n");
 	}
 
 	setRotation(r: number) {
