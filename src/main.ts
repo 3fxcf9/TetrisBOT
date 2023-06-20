@@ -6,8 +6,6 @@ import { Grid } from "./grid";
 const tetr = new Tetramino();
 const grid = new Grid({ next: tetr });
 
-console.log("My tetramino: \n" + surroundASCII(tetr.toASCIILines()).join("\n"));
-
 grid.hardDropTetramino(tetr);
 
 function rb1a7() {
@@ -18,6 +16,8 @@ for (let i = 0; i < 5; i++) {
 	grid.hardDropTetramino(new Tetramino({ type: rb1a7() }));
 }
 
-console.log("My grid: \n" + surroundASCII(grid.toASCIILines()).join("\n"));
+const current = new Tetramino();
+grid.showGameFrame({ current });
 
-grid.showGameFrame();
+current.right();
+grid.showGameFrame({ current });

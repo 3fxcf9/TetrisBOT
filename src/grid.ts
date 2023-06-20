@@ -23,13 +23,20 @@ export class Grid {
 		this.next = next;
 	}
 
-	toASCIILines(): string[] {
-		const lines: string[] = [];
+	toASCIILines({ current }: { current?: Tetramino } = {}): string[] {
+		const rendered_grid = structuredClone(this.grid);
 
-		for (const _row in this.grid) {
+		if (current) {
+			for (let [value, _row, _col] of matrixIterator(current.matrix)) {
+				if (value) rendered_grid[current.y + _row][current.x + _col] = current.type;
+			}
+		}
+
+		const lines: string[] = [];
+		for (const _row in rendered_grid) {
 			let line = "";
-			for (const _column in this.grid[_row]) {
-				line += `${tetraminoColors[this.grid[_row][_column]].piece}  \u001b[0m`;
+			for (const _column in rendered_grid[_row]) {
+				line += `${tetraminoColors[rendered_grid[_row][_column]].piece}  \u001b[0m`;
 			}
 			lines.push(line);
 		}
@@ -41,12 +48,8 @@ export class Grid {
 		return this.toASCIILines().join("\n");
 	}
 
-	showGameFrame() {
-		const grid_lines = this.toASCIILines();
-		const next_lines = this.next ? this.next.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
-		const held_lines = this.held ? this.held.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
-
-		const left_col = surroundASCII(held_lines).concat([
+	generateStatistics() {
+		return [
 			"",
 			"T:   N/A", // Playing time
 			"S:   N/A", // Score
@@ -55,7 +58,16 @@ export class Grid {
 			"MT:  N/A", // Mean move time
 			"MDT: N/A", // Mean decision time
 			"MAT: N/A", // Mean move action time
-		]);
+		];
+	}
+
+	showGameFrame({ current }: { current?: Tetramino } = {}) {
+		const grid_lines = this.toASCIILines({ current });
+
+		const next_lines = this.next ? this.next.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
+		const held_lines = this.held ? this.held.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
+
+		const left_col = surroundASCII(held_lines).concat(this.generateStatistics());
 
 		const lines = columnASCIILines(left_col, surroundASCII(grid_lines), surroundASCII(next_lines));
 
