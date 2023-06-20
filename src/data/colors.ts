@@ -4,7 +4,7 @@ export type TetraminoColor = {
 };
 
 export const tetraminoColors: { [x: number]: TetraminoColor } = {
-	0: { piece: "BLANK", projected: "BLANK" }, // Nothing
+	0: { piece: "\u001b[m", projected: "\u001b[m" }, // Nothing
 	1: { piece: "\u001b[48;2;255;148;0m", projected: "\u001b[48;2;255;148;0m" }, // O
 	2: { piece: "\u001b[48;2;0;153;92m", projected: "\u001b[48;2;0;153;92m" }, // S
 	3: { piece: "\u001b[48;2;170;0;56m", projected: "\u001b[48;2;170;0;56m" }, // Z
