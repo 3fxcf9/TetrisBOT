@@ -124,4 +124,23 @@ export class Grid {
 		}
 		this.placeTetramino(tetramino);
 	}
+
+	/**
+	 * Check if a tetramino position is valid
+	 * @param tetramino The piece to test
+	 * @returns If the position is valid
+	 */
+	isPlacementValid(tetramino: Tetramino): boolean {
+		for (let [value, _row, _col] of matrixIterator(tetramino.matrix)) {
+			// Test only filled blocks of a pece
+			if (!value) continue; // Skip iteration
+
+			// Inside the grid (x axis)
+			if (_col + tetramino.x < 0 || _col + tetramino.x > 9) return false;
+
+			// Only on empty squares
+			if (this.grid[_row + tetramino.y][_col + tetramino.x] != 0) return false;
+		}
+		return true;
+	}
 }
