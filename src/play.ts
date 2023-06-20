@@ -9,6 +9,7 @@ function rb1a7() {
 }
 
 let current = new Tetramino({ type: rb1a7() });
+let score = 0;
 (async () => {
 	do {
 		const prompt = await read();
@@ -65,6 +66,8 @@ let current = new Tetramino({ type: rb1a7() });
 			grid.showGameFrame();
 			process.exit(0);
 		}
+
+		score += grid.delLines();
 
 		grid.showGameFrame({ current });
 	} while (true);

@@ -3,21 +3,19 @@ import { surroundASCII } from "./utils/surroundASCII";
 import { Tetramino } from "./tetramino";
 import { Grid } from "./grid";
 
-const tetr = new Tetramino();
-const grid = new Grid({ next: tetr });
-
-grid.hardDropTetramino(tetr);
-
-function rb1a7() {
-	return 1 + Math.floor(Math.random() * 6);
-}
-
-for (let i = 0; i < 5; i++) {
-	grid.hardDropTetramino(new Tetramino({ type: rb1a7() }));
-}
+const grid = new Grid();
 
 const current = new Tetramino();
-grid.showGameFrame({ current });
+const held = new Tetramino({ type: 1 });
+const next = new Tetramino({ type: 2 });
+const stats = {
+	T: "N/A", // Playing time
+	S: "N/A", // Score
+	PPS: "N/A", // Piece per sec
+	APS: "N/A", // Attack per sec
+	MT: "N/A", // Mean move time
+	MDT: "N/A", // Mean decision time
+	MAT: "N/A", // Mean move action time
+};
 
-current.right();
-grid.showGameFrame({ current });
+grid.showGameFrame({ current, held, next, stats });

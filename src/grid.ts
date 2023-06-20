@@ -7,20 +7,26 @@ import { matrixIterator } from "./utils/matrixIterator";
 import { surroundASCII } from "./utils/surroundASCII";
 import { columnASCIILines } from "./utils/columnASCII";
 
+interface BoardStats {
+	T: string | number; // Playing time
+	S: string | number; // Score
+	PPS: string | number; // Piece per sec
+	APS: string | number; // Attack per sec
+	MT: string | number; // Mean move time
+	MDT: string | number; // Mean decision time
+	MAT: string | number; // Mean move action time
+}
+
 /**
  * Represents the tetris grid
  */
 export class Grid {
 	grid: number[][];
-	next: Tetramino | undefined;
-	held: Tetramino | undefined;
 
-	constructor({ next = undefined }: { next?: Tetramino | undefined } = {}) {
+	constructor() {
 		this.grid = Array(20)
 			.fill(0)
 			.map(() => Array(10).fill(0));
-
-		this.next = next;
 	}
 
 	toASCIILines({ current }: { current?: Tetramino } = {}): string[] {
@@ -62,26 +68,25 @@ export class Grid {
 		return this.toASCIILines().join("\n");
 	}
 
-	generateStatistics() {
-		return [
-			"",
-			"T:   N/A", // Playing time
-			"S:   N/A", // Score
-			"PPS: N/A", // Piece per sec
-			"APS: N/A", // Attack per sec
-			"MT:  N/A", // Mean move time
-			"MDT: N/A", // Mean decision time
-			"MAT: N/A", // Mean move action time
-		];
+	generateStatistics(stats: BoardStats): string[] {
+		const slines: string[] = [];
+
+		for (const sname in stats) {
+			if (Object.prototype.hasOwnProperty.call(stats, sname)) {
+				const sval = stats[sname as keyof typeof stats];
+				slines.push(`\u001b[1m${sname}\u001b[0m: ${sval}`);
+			}
+		}
+		return slines;
 	}
 
-	showGameFrame({ current }: { current?: Tetramino } = {}) {
+	showGameFrame({ current, held, next, stats }: { current?: Tetramino; held?: Tetramino; next?: Tetramino; stats?: BoardStats } = {}) {
 		const grid_lines = this.toASCIILines({ current });
 
-		const next_lines = this.next ? this.next.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
-		const held_lines = this.held ? this.held.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
+		const next_lines = next ? next.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
+		const held_lines = held ? held.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
 
-		const left_col = surroundASCII(held_lines).concat(this.generateStatistics());
+		const left_col = surroundASCII(held_lines).concat(stats ? this.generateStatistics(stats) : []);
 
 		const lines = columnASCIILines(left_col, surroundASCII(grid_lines), surroundASCII(next_lines));
 
@@ -168,5 +173,21 @@ export class Grid {
 			if (this.grid[_row + tetramino.y][_col + tetramino.x] != 0) return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Deletes all completed lines in grid
+	 * @returns The number of deleted lines
+	 */
+	delLines(): number {
+		let del_lines = 0;
+		for (let _row = 0; _row < this.grid.length; _row++) {
+			if (this.grid[_row].every((x) => x > 0)) {
+				this.grid.splice(_row, 1);
+				this.grid.unshift(Array(10).fill(0));
+				del_lines++;
+			}
+		}
+		return del_lines;
 	}
 }
