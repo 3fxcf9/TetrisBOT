@@ -1,10 +1,10 @@
-import { allTetraminoSRS } from "./data/srs";
-import type { TetraminoSRS } from "./data/srs";
+import { allTetraminoSRS } from "../data/srs";
+import type { TetraminoSRS } from "../data/srs";
 
-import { tetraminoColors } from "./data/colors";
-import type { TetraminoColor } from "./data/colors";
+import { tetraminoColors } from "../data/colors";
+import type { TetraminoColor } from "../data/colors";
 
-interface newTatraminoParemeters {
+interface newTetraminoParemeters {
 	x?: number;
 	y?: number;
 	rotation?: number;
@@ -24,7 +24,7 @@ export class Tetramino {
 	pixel_on_rendering: string;
 	pixel_off_rendering: string;
 
-	constructor({ x = 0, y = 0, rotation = 0, type = 5 }: newTatraminoParemeters = {}) {
+	constructor({ x = 0, y = 0, rotation = 0, type = 5 }: newTetraminoParemeters = {}) {
 		this.x = x;
 		this.y = y;
 		this.type = type;

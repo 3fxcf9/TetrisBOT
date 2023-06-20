@@ -1,11 +1,11 @@
 import { Tetramino } from "./tetramino";
 
-import { allTetraminoSRS } from "./data/srs";
-import { tetraminoColors } from "./data/colors";
+import { allTetraminoSRS } from "../data/srs";
+import { tetraminoColors } from "../data/colors";
 
-import { matrixIterator } from "./utils/matrixIterator";
-import { surroundASCII } from "./utils/surroundASCII";
-import { columnASCIILines } from "./utils/columnASCII";
+import { matrixIterator } from "../utils/matrixIterator";
+import { surroundASCII } from "../utils/surroundASCII";
+import { columnASCIILines } from "../utils/columnASCII";
 
 interface BoardStats {
 	T: string | number; // Playing time

@@ -1,9 +1,11 @@
 import { matrixIterator } from "./utils/matrixIterator";
 import { surroundASCII } from "./utils/surroundASCII";
-import { Tetramino } from "./tetramino";
-import { Grid } from "./grid";
+import { Tetramino } from "./lib/tetramino";
+import { Grid } from "./lib/grid";
+import { TetraminoRandomizer } from "./lib/randomizer";
 
 const grid = new Grid();
+const rdm = new TetraminoRandomizer();
 
 const current = new Tetramino();
 const held = new Tetramino({ type: 1 });

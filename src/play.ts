@@ -1,14 +1,13 @@
-import { Tetramino } from "./tetramino";
-import { Grid } from "./grid";
+import { Tetramino } from "./lib/tetramino";
+import { Grid } from "./lib/grid";
+import { TetraminoRandomizer } from "./lib/randomizer";
 import { read } from "./utils/userInput";
 
 const grid = new Grid();
 
-function rb1a7() {
-	return 1 + Math.round(Math.random() * 6);
-}
+const rdm = new TetraminoRandomizer();
+let current = rdm.newTetramino();
 
-let current = new Tetramino({ type: rb1a7() });
 let score = 0;
 (async () => {
 	do {
@@ -44,7 +43,7 @@ let score = 0;
 
 			case "i": // Hard drop
 				grid.hardDropTetramino(current);
-				current = new Tetramino({ type: rb1a7() });
+				current = rdm.newTetramino();
 				break;
 
 			case "s": // Hold
@@ -60,7 +59,7 @@ let score = 0;
 
 		if (grid.isTetraminoGrounded(current)) {
 			grid.placeTetramino(current);
-			current = new Tetramino({ type: rb1a7() });
+			current = rdm.newTetramino();
 		}
 		if (!grid.isPlacementValid(current)) {
 			grid.showGameFrame();
