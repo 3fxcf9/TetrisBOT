@@ -76,6 +76,6 @@ let score = 0;
 
 		score += grid.delLines();
 
-		grid.showGameFrame({ current, held });
+		grid.showGameFrame({ current, held, next: rdm.next });
 	} while (true);
 })();

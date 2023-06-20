@@ -32,4 +32,8 @@ export class TetraminoRandomizer {
 
 		return t;
 	}
+
+	get next() {
+		return new Tetramino({ type: this.next_pieces[0] });
+	}
 }
