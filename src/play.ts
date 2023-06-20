@@ -6,7 +6,9 @@ import { read } from "./utils/userInput";
 const grid = new Grid();
 
 const rdm = new TetraminoRandomizer();
+
 let current = rdm.newTetramino();
+let held = undefined;
 
 let score = 0;
 (async () => {
@@ -47,6 +49,12 @@ let score = 0;
 				break;
 
 			case "s": // Hold
+				if (held) {
+					[current, held] = [held, current];
+				} else {
+					held = current;
+					current = rdm.newTetramino();
+				}
 				break;
 
 			case "a": // Quit
@@ -68,6 +76,6 @@ let score = 0;
 
 		score += grid.delLines();
 
-		grid.showGameFrame({ current });
+		grid.showGameFrame({ current, held });
 	} while (true);
 })();
