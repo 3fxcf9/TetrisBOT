@@ -26,9 +26,18 @@ export class Grid {
 	toASCIILines({ current }: { current?: Tetramino } = {}): string[] {
 		const rendered_grid = structuredClone(this.grid);
 
+		// Display current piece
 		if (current) {
 			for (let [value, _row, _col] of matrixIterator(current.matrix)) {
 				if (value) rendered_grid[current.y + _row][current.x + _col] = current.type;
+			}
+		}
+
+		// Display projected piece
+		if (current) {
+			const projected = this.projectHardDrop(current);
+			for (let [value, _row, _col] of matrixIterator(projected.matrix)) {
+				if (value) rendered_grid[projected.y + _row][projected.x + _col] = projected.type * 10;
 			}
 		}
 
@@ -36,7 +45,12 @@ export class Grid {
 		for (const _row in rendered_grid) {
 			let line = "";
 			for (const _column in rendered_grid[_row]) {
-				line += `${tetraminoColors[rendered_grid[_row][_column]].piece}  \u001b[0m`;
+				const color =
+					rendered_grid[_row][_column] % 10 == 0
+						? tetraminoColors[rendered_grid[_row][_column] / 10].projected
+						: tetraminoColors[rendered_grid[_row][_column]].piece;
+
+				line += `${color}  \u001b[0m`;
 			}
 			lines.push(line);
 		}
@@ -123,6 +137,18 @@ export class Grid {
 			process.exit(0);
 		}
 		this.placeTetramino(tetramino);
+	}
+
+	/**
+	 * Returns the har-dropped copy of a tetramino
+	 * @param tetramino The tetramino to project
+	 */
+	projectHardDrop(tetramino: Tetramino) {
+		const projected_copy = Object.assign(Object.create(Object.getPrototypeOf(tetramino)), tetramino);
+		while (!this.isTetraminoGrounded(projected_copy)) {
+			projected_copy.down();
+		}
+		return projected_copy;
 	}
 
 	/**
