@@ -1,11 +1,10 @@
+import { strLengthExcludingEscape } from "./strLength";
+
 /**
  * Surround with ASCII border
  * @param lines Array of ASCII lines
  * @returns An array of lines surrounded by ASCII border
  */
-function strLengthExcludingEscape(string: string) {
-	return string.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, "").length;
-}
 export function surroundASCII(lines: string[]): string[] {
 	const max_length_line = lines.reduce((max: number, line: any) => Math.max(max, strLengthExcludingEscape(line)), 0);
 

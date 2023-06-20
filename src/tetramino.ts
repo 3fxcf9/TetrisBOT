@@ -4,6 +4,13 @@ import type { TetraminoSRS } from "./data/srs";
 import { tetraminoColors } from "./data/colors";
 import type { TetraminoColor } from "./data/colors";
 
+interface newTatraminoParemeters {
+	x?: number;
+	y?: number;
+	rotation?: number;
+	type?: number;
+}
+
 /**
  * Represents a tetramino (position, rotation).
  */
@@ -17,7 +24,7 @@ export class Tetramino {
 	pixel_on_rendering: string;
 	pixel_off_rendering: string;
 
-	constructor({ x = 0, y = 0, rotation = 0, type = 5 } = {}) {
+	constructor({ x = 0, y = 0, rotation = 0, type = 5 }: newTatraminoParemeters = {}) {
 		this.x = x;
 		this.y = y;
 		this.type = type;
@@ -34,8 +41,12 @@ export class Tetramino {
 		return this.srs.rotations[this.current_rotation] as number[][];
 	}
 
+	toASCIILines() {
+		return this.matrix.map((row) => row.map((s) => (s ? this.pixel_on_rendering : this.pixel_off_rendering)).join(""));
+	}
+
 	toString(): string {
-		return this.matrix.map((row) => row.map((s) => (s ? this.pixel_on_rendering : this.pixel_off_rendering)).join("")).join("\n");
+		return this.toASCIILines().join("\n");
 	}
 
 	setRotation(r: number) {

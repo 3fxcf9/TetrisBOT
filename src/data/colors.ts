@@ -1,7 +1,7 @@
-export type TetraminoColor = {
+export interface TetraminoColor {
 	piece: string;
 	projected: string;
-};
+}
 
 export const tetraminoColors: { [x: number]: TetraminoColor } = {
 	0: { piece: "\u001b[m", projected: "\u001b[m" }, // Nothing

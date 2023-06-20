@@ -1,6 +1,6 @@
-export type TetraminoSRS = {
+export interface TetraminoSRS {
 	rotations: number[][][];
-};
+}
 
 export const allTetraminoSRS: { [x: number]: TetraminoSRS } = {
 	0: {
