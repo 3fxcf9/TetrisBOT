@@ -8,13 +8,13 @@ import { surroundASCII } from "../utils/surroundASCII";
 import { columnASCIILines } from "../utils/columnASCII";
 
 interface BoardStats {
-	T: string | number; // Playing time
-	S: string | number; // Score
-	PPS: string | number; // Piece per sec
-	APS: string | number; // Attack per sec
-	MT: string | number; // Mean move time
-	MDT: string | number; // Mean decision time
-	MAT: string | number; // Mean move action time
+	T?: string | number; // Playing time
+	S?: string | number; // Score
+	PPS?: string | number; // Piece per sec
+	APS?: string | number; // Attack per sec
+	MT?: string | number; // Mean move time
+	MDT?: string | number; // Mean decision time
+	MAT?: string | number; // Mean move action time
 }
 
 /**

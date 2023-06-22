@@ -9,9 +9,13 @@ const rdm = new TetraminoRandomizer();
 
 let current = rdm.newTetramino();
 let held = undefined;
+let held_used = false;
 
 let score = 0;
 (async () => {
+	// Show the empty grid
+	grid.showGameFrame({ current, held, next: rdm.next, stats: { S: score } });
+
 	do {
 		const prompt = await read();
 		switch (prompt) {
@@ -46,15 +50,18 @@ let score = 0;
 			case "i": // Hard drop
 				grid.hardDropTetramino(current);
 				current = rdm.newTetramino();
+				held_used = false;
 				break;
 
 			case "s": // Hold
+				if (held_used) continue;
 				if (held) {
 					[current, held] = [held, current];
 				} else {
 					held = current;
 					current = rdm.newTetramino();
 				}
+				held_used = true;
 				break;
 
 			case "a": // Quit
@@ -68,6 +75,7 @@ let score = 0;
 		if (grid.isTetraminoGrounded(current)) {
 			grid.placeTetramino(current);
 			current = rdm.newTetramino();
+			held_used = false;
 		}
 		if (!grid.isPlacementValid(current)) {
 			grid.showGameFrame();
@@ -76,6 +84,6 @@ let score = 0;
 
 		score += grid.delLines();
 
-		grid.showGameFrame({ current, held, next: rdm.next });
+		grid.showGameFrame({ current, held, next: rdm.next, stats: { S: score } });
 	} while (true);
 })();
