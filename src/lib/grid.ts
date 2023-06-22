@@ -86,9 +86,9 @@ export class Grid {
 		const next_lines = next ? next.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
 		const held_lines = held ? held.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
 
-		const left_col = surroundASCII(held_lines).concat(stats ? this.generateStatistics(stats) : []);
+		const left_col = surroundASCII(held_lines, { width: 4 * 2, height: 4 }).concat(stats ? this.generateStatistics(stats) : []);
 
-		const lines = columnASCIILines(left_col, surroundASCII(grid_lines), surroundASCII(next_lines));
+		const lines = columnASCIILines(left_col, surroundASCII(grid_lines), surroundASCII(next_lines, { width: 4 * 2, height: 4 }));
 
 		console.log(lines.join("\n"));
 	}
