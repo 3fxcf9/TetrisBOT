@@ -24,7 +24,7 @@ export class Tetramino {
 	pixel_on_rendering: string;
 	pixel_off_rendering: string;
 
-	constructor({ x = 0, y = 0, rotation = 0, type = 5 }: newTetraminoParemeters = {}) {
+	constructor({ x = 3, y = 0, rotation = 0, type = 5 }: newTetraminoParemeters = {}) {
 		this.x = x;
 		this.y = y;
 		this.type = type;
