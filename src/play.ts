@@ -51,6 +51,7 @@ let score = 0;
 
 			case "k": // Soft drop
 				current.down();
+				if (!grid.isPlacementValid(current)) current.up();
 				break;
 
 			case "i": // Hard drop
@@ -79,11 +80,13 @@ let score = 0;
 				break;
 		}
 
-		if (grid.isTetraminoGrounded(current)) {
-			grid.placeTetramino(current);
-			current = rdm.newTetramino();
-			held_used = false;
-		}
+		// Commented for zero grav
+		// if (grid.isTetraminoGrounded(current)) {
+		// 	grid.placeTetramino(current);
+		// 	current = rdm.newTetramino();
+		// 	held_used = false;
+		// }
+
 		if (!grid.isPlacementValid(current)) {
 			grid.showGameFrame();
 			process.exit(0);

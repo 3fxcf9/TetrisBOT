@@ -71,6 +71,10 @@ export class Tetramino {
 		this.x += 1;
 		return this;
 	}
+	up() {
+		this.y -= 1;
+		return this;
+	}
 	down() {
 		this.y += 1;
 		return this;

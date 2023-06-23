@@ -169,6 +169,12 @@ export class Grid {
 			// Inside the grid (x axis)
 			if (_col + tetramino.x < 0 || _col + tetramino.x > 9) return false;
 
+			// Not too low
+			if (_row + tetramino.y >= this.grid.length) {
+				console.log("diquhdqiozuhdqz");
+				return false;
+			}
+
 			// Only on empty squares
 			if (this.grid[_row + tetramino.y][_col + tetramino.x] != 0) return false;
 		}
