@@ -20,4 +20,4 @@ const stats = {
 	MAT: "N/A", // Mean move action time
 };
 
-grid.showGameFrame({ current, held, next, stats });
+grid.showGameFrame({ current, held, next: [next], stats });

@@ -33,7 +33,12 @@ export class TetraminoRandomizer {
 		return t;
 	}
 
-	get next() {
-		return new Tetramino({ type: this.next_pieces[0] });
+	/**
+	 * Get the next pieces to be generated
+	 * @param n The number of next piece to return
+	 * @returns An array with the n next pieces
+	 */
+	getNext(n: number = 5): Tetramino[] {
+		return this.next_pieces.slice(0, n).map((p) => new Tetramino({ type: p }));
 	}
 }

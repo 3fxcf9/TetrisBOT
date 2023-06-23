@@ -14,7 +14,7 @@ let held_used = false;
 let score = 0;
 (async () => {
 	// Show the empty grid
-	grid.showGameFrame({ current, held, next: rdm.next, stats: { S: score } });
+	grid.showGameFrame({ current, held, next: rdm.getNext(5), stats: { S: score } });
 
 	do {
 		const prompt = await read();
@@ -95,6 +95,6 @@ let score = 0;
 		score += grid.delLines();
 
 		console.clear();
-		grid.showGameFrame({ current, held, next: rdm.next, stats: { S: score } });
+		grid.showGameFrame({ current, held, next: rdm.getNext(5), stats: { S: score } });
 	} while (true);
 })();

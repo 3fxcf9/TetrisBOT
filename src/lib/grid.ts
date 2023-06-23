@@ -80,10 +80,10 @@ export class Grid {
 		return slines;
 	}
 
-	showGameFrame({ current, held, next, stats }: { current?: Tetramino; held?: Tetramino; next?: Tetramino; stats?: BoardStats } = {}) {
+	showGameFrame({ current, held, next, stats }: { current?: Tetramino; held?: Tetramino; next?: Tetramino[]; stats?: BoardStats } = {}) {
 		const grid_lines = this.toASCIILines({ current });
 
-		const next_lines = next ? next.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
+		const next_lines = next ? next.map((t) => t.toASCIILines()).flat() : new Tetramino({ type: 0 }).toASCIILines();
 		const held_lines = held ? held.toASCIILines() : new Tetramino({ type: 0 }).toASCIILines();
 
 		const left_col = surroundASCII(held_lines, { width: 4 * 2, height: 4 }).concat(stats ? this.generateStatistics(stats) : []);
