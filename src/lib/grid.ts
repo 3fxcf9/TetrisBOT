@@ -32,18 +32,18 @@ export class Grid {
 	toASCIILines({ current }: { current?: Tetramino } = {}): string[] {
 		const rendered_grid = structuredClone(this.grid);
 
-		// Display current piece
-		if (current) {
-			for (let [value, _row, _col] of matrixIterator(current.matrix)) {
-				if (value) rendered_grid[current.y + _row][current.x + _col] = current.type;
-			}
-		}
-
 		// Display projected piece
 		if (current) {
 			const projected = this.projectHardDrop(current);
 			for (let [value, _row, _col] of matrixIterator(projected.matrix)) {
 				if (value) rendered_grid[projected.y + _row][projected.x + _col] = projected.type * 10;
+			}
+		}
+
+		// Display current piece
+		if (current) {
+			for (let [value, _row, _col] of matrixIterator(current.matrix)) {
+				if (value) rendered_grid[current.y + _row][current.x + _col] = current.type;
 			}
 		}
 
