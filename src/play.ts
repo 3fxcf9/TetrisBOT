@@ -64,11 +64,11 @@ let score = 0;
 				if (held_used) continue;
 				if (held) {
 					[current, held] = [held, current];
-					current.reset();
 				} else {
 					held = current;
 					current = rdm.newTetramino();
 				}
+				held.reset(); // Reset rotation and position
 				held_used = true;
 				break;
 
