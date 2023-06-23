@@ -57,6 +57,12 @@ export class Tetramino {
 		this.current_rotation = (this.current_rotation + dir + 4) % 4; // TODO: Better rotation system
 	}
 
+	reset() {
+		this.setRotation(0);
+		this.x = 3;
+		this.y = 0;
+	}
+
 	left() {
 		this.x -= 1;
 		return this;
