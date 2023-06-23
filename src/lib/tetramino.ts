@@ -53,7 +53,7 @@ export class Tetramino {
 		this.current_rotation = r;
 	}
 
-	rotate(dir: -1 | 1) {
+	rotate(dir: -1 | 1 | 2) {
 		this.current_rotation = (this.current_rotation + dir + 4) % 4; // TODO: Better rotation system
 	}
 

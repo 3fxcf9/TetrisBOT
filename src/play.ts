@@ -31,6 +31,12 @@ let score = 0;
 
 				break;
 
+			case "z": // 180 spin
+				current.rotate(2);
+				if (!grid.isPlacementValid(current)) current.rotate(2);
+
+				break;
+
 			case "j": // Left
 				current.left();
 				if (!grid.isPlacementValid(current)) current.right();

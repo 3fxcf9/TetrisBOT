@@ -16,12 +16,10 @@ export function surroundASCII(lines: string[], min_dimensions: { height?: number
 	let result = ["╭" + "─".repeat(dimensions.width) + "╮"];
 
 	result = result.concat(
-		lines.map(
-			(line: string) => "│" + line + " ".repeat(width - strLength(line)) + " ".repeat(dimensions.width - strLength(line)) + "│"
-		)
+		lines.map((line: string) => "│" + line + " ".repeat(width - strLength(line)) + " ".repeat(dimensions.width - strLength(line)) + "│")
 	);
 
-	result = result.concat(Array(dimensions.height - lines.length).fill("│" + " ".repeat(dimensions.width) + "│"););
+	result = result.concat(Array(dimensions.height - lines.length).fill("│" + " ".repeat(dimensions.width) + "│"));
 
 	result.push("╰" + "─".repeat(dimensions.width) + "╯");
 
