@@ -212,6 +212,8 @@ export class Grid {
 			kicks = all_rotations_kicks[tetramino.current_rotation];
 		}
 
+		console.log("Kicks: ", kicks);
+
 		let first_valid_kick = undefined;
 		for (const kick of kicks) {
 			const test: Tetramino = tetramino.copy();
@@ -238,7 +240,7 @@ export class Grid {
 			const kick = this.chooseKick(tetramino, rotation);
 			if (!kick) return;
 
-			console.log(kick);
+			console.log("Selected: ", kick);
 
 			tetramino.rotate(rotation);
 			tetramino.x += kick[0];
