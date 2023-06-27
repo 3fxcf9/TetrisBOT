@@ -1,12 +1,19 @@
 {
-  "name": "TetrisBOT",
-  "version": "1.0.0",
-  "main": "js/main.js",
-  "repository": "https://github.com/3fxcf9/TetrisBOT.git",
-  "author": "3fxcf9",
-  "license": "GPL-3.0-only",
-  "private": false,
-  "dependencies": {
-    "@types/node": "^18.15.11"
-  }
+	"name": "tetris-bot",
+	"version": "1.0.0",
+	"main": "js/main.js",
+	"repository": "https://github.com/3fxcf9/TetrisBOT.git",
+	"author": "3fxcf9",
+	"license": "GPL-3.0-only",
+	"private": false,
+	"dependencies": {
+		"@types/node": "^18.15.11"
+	},
+	"bin": "js/play.js",
+	"pkg": {
+		"targets": [
+			"node18-linux-x64"
+		],
+		"outputPath": "dist"
+	}
 }

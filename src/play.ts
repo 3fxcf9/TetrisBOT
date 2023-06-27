@@ -94,7 +94,6 @@ let score = 0;
 
 		score += grid.delLines();
 
-		console.clear();
 		grid.showGameFrame({ current, held, next: rdm.getNext(5), stats: { S: score } });
 	} while (true);
 })();
