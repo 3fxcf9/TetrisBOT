@@ -41,6 +41,10 @@ export class Tetramino {
 		return this.srs.rotations[this.current_rotation] as number[][];
 	}
 
+	copy() {
+		return Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+	}
+
 	toASCIILines() {
 		return this.matrix.map((row) => row.map((s) => (s ? this.pixel_on_rendering : this.pixel_off_rendering)).join(""));
 	}

@@ -1,6 +1,6 @@
 import { Tetramino } from "./tetramino";
 
-import { allTetraminoSRS } from "../data/srs";
+import { allTetraminosKicks } from "../data/kicks";
 import { tetraminoColors } from "../data/colors";
 
 import { matrixIterator } from "../utils/matrixIterator";
@@ -29,6 +29,11 @@ export class Grid {
 			.map(() => Array(10).fill(0));
 	}
 
+	/**
+	 * Convert the grid to ASCII lines
+	 * @param param0 If {current} is provided, it will be showed on the grid
+	 * @returns ASCII lines of the grid
+	 */
 	toASCIILines({ current }: { current?: Tetramino } = {}): string[] {
 		const rendered_grid = structuredClone(this.grid);
 
@@ -68,6 +73,11 @@ export class Grid {
 		return this.toASCIILines().join("\n");
 	}
 
+	/**
+	 * Convert statistics to ASCII lines
+	 * @param stats Statistics
+	 * @returns ASCII lines of the statistics
+	 */
 	generateStatistics(stats: BoardStats): string[] {
 		const slines: string[] = [];
 
@@ -80,6 +90,10 @@ export class Grid {
 		return slines;
 	}
 
+	/**
+	 * Display the grid in the console
+	 * @param param0 Configuration object, facultative
+	 */
 	showGameFrame({ current, held, next, stats }: { current?: Tetramino; held?: Tetramino; next?: Tetramino[]; stats?: BoardStats } = {}) {
 		const grid_lines = this.toASCIILines({ current });
 
@@ -179,6 +193,57 @@ export class Grid {
 			if (this.grid[_row + tetramino.y][_col + tetramino.x] != 0) return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Select a kick for the provided rotation
+	 * @param tetramino The tetramino to test with
+	 * @returns The selected matrix of false if impossible
+	 */
+	chooseKick(tetramino: Tetramino, rotation: -1 | 1): number[] | false {
+		const all_rotations_kicks = allTetraminosKicks[tetramino.type];
+
+		let kicks = undefined;
+
+		if (rotation == -1) {
+			kicks = all_rotations_kicks[(tetramino.current_rotation + 4 - 1) % 4];
+			kicks = kicks.map(([x, y]) => [-x, -y]);
+		} else {
+			kicks = all_rotations_kicks[tetramino.current_rotation];
+		}
+
+		let first_valid_kick = undefined;
+		for (const kick of kicks) {
+			const test: Tetramino = tetramino.copy();
+			test.rotate(rotation);
+			test.x += kick[0];
+			test.y += kick[1];
+			if (this.isPlacementValid(test)) {
+				first_valid_kick = kick;
+				break;
+			}
+		}
+
+		return first_valid_kick || false;
+	}
+
+	rotateTetramino(tetramino: Tetramino, rotation: -1 | 1 | 2) {
+		if (rotation == 2) {
+			tetramino.rotate(2);
+			if (!this.isPlacementValid(tetramino)) {
+				tetramino.rotate(2); // Revert
+				return;
+			}
+		} else {
+			const kick = this.chooseKick(tetramino, rotation);
+			if (!kick) return;
+
+			console.log(kick);
+
+			tetramino.rotate(rotation);
+			tetramino.x += kick[0];
+			tetramino.y += kick[1];
+		}
 	}
 
 	/**

@@ -20,20 +20,17 @@ let score = 0;
 		const prompt = await read();
 		switch (prompt) {
 			case "q": // Anti-clockwise
-				current.rotate(-1);
-				if (!grid.isPlacementValid(current)) current.rotate(1);
+				grid.rotateTetramino(current, -1);
 
 				break;
 
 			case "d": // Clockwise
-				current.rotate(1);
-				if (!grid.isPlacementValid(current)) current.rotate(-1);
+				grid.rotateTetramino(current, 1);
 
 				break;
 
 			case "z": // 180 spin
-				current.rotate(2);
-				if (!grid.isPlacementValid(current)) current.rotate(2);
+				grid.rotateTetramino(current, 2);
 
 				break;
 
