@@ -3,18 +3,25 @@ function getDirection(key: Buffer): string {
 	const RIGHT_ARROW = "\u001b[C";
 	const UP_ARROW = "\u001b[A";
 	const DOWN_ARROW = "\u001b[B";
+	const ESCAPE_KEY = "\u001b";
 
-	if (key.toString() === LEFT_ARROW) {
+	const key_string = key.toString();
+
+	if (key_string === LEFT_ARROW) {
 		return "left";
-	} else if (key.toString() === RIGHT_ARROW) {
+	} else if (key_string === RIGHT_ARROW) {
 		return "right";
-	} else if (key.toString() === UP_ARROW) {
+	} else if (key_string === UP_ARROW) {
 		return "up";
-	} else if (key.toString() === DOWN_ARROW) {
+	} else if (key_string === DOWN_ARROW) {
 		return "down";
+	} else if (key_string === ESCAPE_KEY) {
+		return "escape";
+	} else if (key_string === " ") {
+		return "space";
 	}
 
-	return key.toString() || "";
+	return key_string || "";
 }
 
 export function read(): Promise<string> {
