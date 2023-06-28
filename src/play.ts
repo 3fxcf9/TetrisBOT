@@ -29,9 +29,9 @@ const controls = {
 const args = getArgs();
 if (args.help) {
 	console.log(`
---controls=layout	Comma separated values of control keys
-	format:		left,right,down,hard-drop,clockwise,anticlock,180spin,hold,restart
-	example:	j,l,k,i,d,z,s,q,r			(swap hold and anticlockwise)
+\u001b[94m--controls=\u001b[0m\u001b[91mlayout\u001b[0m	Comma separated values of control keys
+	\u001b[1mformat:\u001b[0m		\u001b[0m\u001b[91mleft,right,down,hard-drop,clockwise,anticlock,180spin,hold,restart\u001b[0m
+	\u001b[1mexample:\u001b[0m	\u001b[0m\u001b[91mj,l,k,i,d,z,s,q,r\u001b[0m			(swap hold and anticlockwise)
 	`);
 
 	process.exit(0);
