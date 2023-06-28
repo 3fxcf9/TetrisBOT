@@ -174,7 +174,6 @@ export class Grid {
 			tetramino.down();
 		}
 		if (this.isTetraminoTooHigh(tetramino)) {
-			console.log("Game Over");
 			process.exit(0);
 		}
 		this.placeTetramino(tetramino);
@@ -207,7 +206,6 @@ export class Grid {
 
 			// Not too low
 			if (_row + tetramino.y >= this.grid.length) {
-				console.log("diquhdqiozuhdqz");
 				return false;
 			}
 
@@ -234,8 +232,6 @@ export class Grid {
 			kicks = all_rotations_kicks[tetramino.current_rotation];
 		}
 
-		console.log("Kicks: ", kicks);
-
 		let first_valid_kick = undefined;
 		for (const kick of kicks) {
 			const test: Tetramino = tetramino.copy();
@@ -261,8 +257,6 @@ export class Grid {
 		} else {
 			const kick = this.chooseKick(tetramino, rotation);
 			if (!kick) return;
-
-			console.log("Selected: ", kick);
 
 			tetramino.rotate(rotation);
 			tetramino.x += kick[0];

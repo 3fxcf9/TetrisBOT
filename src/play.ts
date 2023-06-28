@@ -160,7 +160,9 @@ let score = 0;
 				process.exit(0);
 
 			default:
-				console.log("Move: q<>d, Rotate: j<>l, Soft drop: k, Hard drop: i, Quit: esc");
+				console.log(`
+\u001b[94mMove:\u001b[0m q<>d, \u001b[94mRotate:\u001b[0m j<>l, \u001b[94mSoft drop:\u001b[0m k, \u001b[94mHard drop:\u001b[0m i, \u001b[94mBack:\u001b[0m w, \u001b[94mRestart:\u001b[0m r, \u001b[94mQuit:\u001b[0m escape
+				`);
 				break;
 		}
 

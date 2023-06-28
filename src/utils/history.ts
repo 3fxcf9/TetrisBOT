@@ -44,8 +44,6 @@ export class GameHistory {
 		if (this.history.length > this.delete_threshold) this.history.splice(this.delete_threshold);
 		this.played_tetramino = undefined;
 		this.hold_used = 0;
-
-		console.log(this.history);
 	}
 
 	latest(): HistoryItem | null {

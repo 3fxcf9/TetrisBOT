@@ -9,6 +9,9 @@
 	"dependencies": {
 		"@types/node": "^18.15.11"
 	},
+	"scripts": {
+		"find_logs": "grep -n -r console.log --exclude-dir=node_modules --exclude-dir=js --exclude-dir=dist"
+	},
 	"bin": "js/play.js",
 	"pkg": {
 		"targets": [
