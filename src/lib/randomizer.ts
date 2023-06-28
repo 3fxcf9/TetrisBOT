@@ -8,6 +8,10 @@ export class TetraminoRandomizer {
 		this.forward_count = 5;
 	}
 
+	reset() {
+		this.next_pieces = this.getBatch();
+	}
+
 	getBatch() {
 		let a = [1, 2, 3, 4, 5, 6, 7];
 		var j, x, i;

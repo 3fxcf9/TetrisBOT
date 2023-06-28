@@ -109,6 +109,13 @@ let score = 0;
 				held_used = true;
 				break;
 
+			case controls.restart:
+				grid.clear();
+				rdm.reset();
+				held = undefined;
+				held_used = false;
+				break;
+
 			case "escape": // Quit
 				process.exit(0);
 

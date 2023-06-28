@@ -30,6 +30,15 @@ export class Grid {
 	}
 
 	/**
+	 * Clear the grid
+	 */
+	clear() {
+		this.grid = Array(20)
+			.fill(0)
+			.map(() => Array(10).fill(0));
+	}
+
+	/**
 	 * Convert the grid to ASCII lines
 	 * @param param0 If {current} is provided, it will be showed on the grid
 	 * @returns ASCII lines of the grid
