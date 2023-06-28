@@ -1,5 +1,7 @@
 import { Grid } from "./lib/grid";
+import { Tetramino } from "./lib/tetramino";
 import { TetraminoRandomizer } from "./lib/randomizer";
+import { GameHistory } from "./utils/history";
 
 // Get process args
 import { getArgs } from "./utils/argv";
@@ -9,6 +11,7 @@ import { read } from "./utils/userInput";
 
 const grid = new Grid();
 const rdm = new TetraminoRandomizer();
+const history = new GameHistory();
 
 // Keyboard controls
 const controls = {
@@ -23,6 +26,7 @@ const controls = {
 	anti_clockwise: "q",
 
 	hold: "s",
+	revert: "w",
 	restart: "r",
 };
 
@@ -30,8 +34,8 @@ const args = getArgs();
 if (args.help) {
 	console.log(`
 \u001b[94m--controls=\u001b[0m\u001b[91mlayout\u001b[0m	Comma separated values of control keys
-	\u001b[1mformat:\u001b[0m		\u001b[0m\u001b[91mleft,right,down,hard-drop,clockwise,anticlock,180spin,hold,restart\u001b[0m
-	\u001b[1mexample:\u001b[0m	\u001b[0m\u001b[91mj,l,k,i,d,z,s,q,r\u001b[0m			(swap hold and anticlockwise)
+	\u001b[1mformat:\u001b[0m		\u001b[0m\u001b[91m${Object.keys(controls).join(",")}\u001b[0m
+	\u001b[1mexample:\u001b[0m	\u001b[0m\u001b[91m${Object.values(controls).join(",")}\u001b[0m			(default)
 	`);
 
 	process.exit(0);
@@ -45,6 +49,7 @@ if (args.controls && typeof args.controls == "string") {
 	});
 }
 
+// Init game
 let current = rdm.newTetramino();
 let held = undefined;
 let held_used = false;
@@ -92,21 +97,56 @@ let score = 0;
 				break;
 
 			case controls.hard_drop:
+				history.addGridSnapshot(grid);
 				grid.hardDropTetramino(current);
+				history.addTetramino(current);
+
 				current = rdm.newTetramino();
+
 				held_used = false;
+				history.saveTurn();
+
 				break;
 
 			case controls.hold:
 				if (held_used) continue;
+
 				if (held) {
 					[current, held] = [held, current];
+					history.holdUsed(1);
 				} else {
 					held = current;
 					current = rdm.newTetramino();
+					history.holdUsed(2);
 				}
 				held.reset(); // Reset rotation and position
+
 				held_used = true;
+
+				break;
+
+			case controls.revert:
+				const latest = history.latest();
+				if (!latest?.tetramino) break;
+
+				grid.clearTetramino(latest.tetramino);
+				rdm.revert(current);
+
+				current = latest.tetramino.reset();
+
+				if (latest.hold_used == 1 && held) [current, held] = [held, current];
+				else if (latest.hold_used == 2 && held) {
+					const current_copy = current.copy();
+					current = held;
+					held = undefined;
+					rdm.revert(current_copy);
+				}
+
+				// If lines cleared
+				if (latest.grid_snapshot) {
+					grid.grid = latest.grid_snapshot;
+				}
+
 				break;
 
 			case controls.restart:

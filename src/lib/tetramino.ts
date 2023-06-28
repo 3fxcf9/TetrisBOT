@@ -65,6 +65,7 @@ export class Tetramino {
 		this.setRotation(0);
 		this.x = 3;
 		this.y = 0;
+		return this;
 	}
 
 	left() {

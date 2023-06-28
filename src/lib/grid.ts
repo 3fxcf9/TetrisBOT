@@ -128,6 +128,19 @@ export class Grid {
 	}
 
 	/**
+	 * "Remove" a tetramino from the grid
+	 * @param tetramino The tetramino to clear
+	 */
+	clearTetramino(tetramino: Tetramino): void {
+		for (let [value, _row, _col] of matrixIterator(tetramino.matrix)) {
+			if (!value) continue;
+			if (this.grid[_row + tetramino.y][_col + tetramino.x] != tetramino.type) continue; // Security
+
+			this.grid[_row + tetramino.y][_col + tetramino.x] = 0;
+		}
+	}
+
+	/**
 	 * Check if a tetramino is grounded
 	 * @param tetramino The tetramino to check
 	 * @returns If the tetramino is grounded

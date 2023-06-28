@@ -4,15 +4,15 @@ export class TetraminoRandomizer {
 	next_pieces: number[];
 	forward_count: number;
 	constructor() {
-		this.next_pieces = this.getBatch();
+		this.next_pieces = this.#getBatch();
 		this.forward_count = 5;
 	}
 
 	reset() {
-		this.next_pieces = this.getBatch();
+		this.next_pieces = this.#getBatch();
 	}
 
-	getBatch() {
+	#getBatch() {
 		let a = [1, 2, 3, 4, 5, 6, 7];
 		var j, x, i;
 		for (i = a.length - 1; i > 0; i--) {
@@ -24,6 +24,14 @@ export class TetraminoRandomizer {
 		return a;
 	}
 
+	revert(tetramino: Tetramino) {
+		this.next_pieces.unshift(tetramino.type);
+	}
+
+	/**
+	 * Generate the next tetramino
+	 * @returns Generated tetramino
+	 */
 	newTetramino() {
 		// Get the new piece
 		const t = new Tetramino({ type: this.next_pieces[0] });
@@ -31,7 +39,7 @@ export class TetraminoRandomizer {
 
 		// Generate a new tetramino
 		if (this.next_pieces.length <= this.forward_count) {
-			this.next_pieces = this.next_pieces.concat(this.getBatch());
+			this.next_pieces = this.next_pieces.concat(this.#getBatch());
 		}
 
 		return t;
